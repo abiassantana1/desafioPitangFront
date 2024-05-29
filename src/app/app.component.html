@@ -4,12 +4,17 @@
       <mat-toolbar>Menu</mat-toolbar>
       <mat-nav-list>
         <a mat-list-item href="usuario">Usuario</a>
-        <a mat-list-item href="#">Carro</a>
-        <a mat-list-item href="#">
-          <button mat-icon-button aria-label="visualizar" class="icon-button">
-            <mat-icon>logout</mat-icon>
-          </button>
-        </a>
+
+          <a mat-list-item href="#">Carro</a>
+        @if (autenticado) {
+          <a mat-list-item href="#">
+            <button mat-icon-button aria-label="logout" class="icon-button" (click)="logout()">
+              <mat-icon>logout</mat-icon>
+            </button>
+          </a>
+        } @else {
+          <a mat-list-item href="login">Login</a>
+        }
       </mat-nav-list>
     </mat-sidenav>
   
