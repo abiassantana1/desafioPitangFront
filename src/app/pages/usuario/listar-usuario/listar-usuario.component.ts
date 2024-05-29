@@ -39,7 +39,6 @@ export class ListarUsuarioComponent {
   displayedColumns: string[] = [ 'id', 'firstName', 'email', 'acoes'];
   usuarios: Usuario[] = [];
   usuarioSelecionado!: Usuario;
-  exibirDetalhar: boolean = false;
   constructor(
     private router: Router,
     private usuarioService: UsuarioService,

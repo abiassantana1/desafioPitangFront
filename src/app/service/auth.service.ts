@@ -1,79 +1,47 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, map, tap } from 'rxjs';
+import { Usuario } from '../interface/usuario';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private readonly JWT_TOKEN = 'JWT_TOKEN';
-  private loggedUser?: string;
-  private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
-  private router = inject(Router);
-  private http = inject(HttpClient);
+  BASE_URL = environment.apiURL
+  PATH = 'signin'
 
-  constructor() {}
+  private autenticado = new BehaviorSubject<boolean>(localStorage.getItem('JWT_TOKEN') != null);
+  autenticado$ = this.autenticado.asObservable();
 
-  login(user: { email: string; password: string }): Observable<any> {
-    return this.http
-      .post('http://localhost:8080/signin', user)
-      .pipe(
-        tap((tokens: any) =>
-          this.doLoginUser(user.email, JSON.stringify(tokens))
-        )
-      );
+  constructor(
+    private httpClient: HttpClient,
+    private router: Router,
+  ) { }
+
+  login(login: string, password: string) {
+    return this.httpClient.post<any>(this.BASE_URL+this.PATH, { login, password })
+      .subscribe(response => {
+        this.storeJwtToken(response.token);
+        this.autenticado.next(true);
+        this.router.navigate(['']);
+      });
   }
 
-  private doLoginUser(email: string, token: any) {
-    this.loggedUser = email;
-    this.storeJwtToken(token);
-    this.isAuthenticatedSubject.next(true);
+  logout() {
+    localStorage.removeItem('JWT_TOKEN');
+    this.router.navigate(['/login']);
   }
+  
 
+  isLogado(): boolean {
+    return this.autenticado.value;
+  }
   private storeJwtToken(jwt: string) {
     localStorage.setItem(this.JWT_TOKEN, jwt);
   }
 
-  logout() {
-    localStorage.removeItem(this.JWT_TOKEN);
-    this.isAuthenticatedSubject.next(false);
-    this.router.navigate(['/login']);
-  }
-
-  getCurrentAuthUser() {
-    return this.http.get('http://localhost:8080/me');
-  }
-
-  isLoggedIn() {
-    return !!localStorage.getItem(this.JWT_TOKEN);
-  }
-
-  isTokenExpired() {
-    const tokens = localStorage.getItem(this.JWT_TOKEN);
-    if (!tokens) return true;
-    const token = JSON.parse(tokens).access_token;
-    const decoded = jwtDecode(token);
-    if (!decoded.exp) return true;
-    const expirationDate = decoded.exp * 1000;
-    const now = new Date().getTime();
-
-    return expirationDate < now;
-  }
-
-  refreshToken() {
-    let tokens: any = localStorage.getItem(this.JWT_TOKEN);
-    if (!tokens) return;
-    tokens = JSON.parse(tokens);
-    let refreshToken = tokens.refresh_token;
-    return this.http
-      .post<any>('http://localhost:8080/signin', {
-        refreshToken,
-      })
-      .pipe(tap((tokens: any) => this.storeJwtToken(JSON.stringify(tokens))));
-  }
-}
-function jwtDecode(token: any) {
-  throw new Error('Function not implemented.');
 }
 
