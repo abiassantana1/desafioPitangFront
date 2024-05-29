@@ -8,12 +8,10 @@ import {MatButtonModule} from '@angular/material/button';
 import { Router, RouterLink } from '@angular/router';
 import {
   MatDialog,
-  MatDialogRef,
   MatDialogActions,
   MatDialogClose,
   MatDialogTitle,
   MatDialogContent,
-  MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { DetalhareDialogComponet } from '../../../shared/components/detalhar-dialog/detalhar-dialog.component';
 

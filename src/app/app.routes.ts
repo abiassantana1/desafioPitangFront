@@ -1,6 +1,4 @@
 import { Routes } from '@angular/router';
-import { CadastrarUsuarioComponent } from './pages/usuario/cadastrar-usuario/cadastrar-usuario.component';
-import { ListarUsuarioComponent } from './pages/usuario/listar-usuario/listar-usuario.component';
 import { AuthGuardService } from './shared/guard/auth-guard.service';
 
 export const routes: Routes = [
@@ -28,11 +26,34 @@ export const routes: Routes = [
     },
     { 
         path: 'usuario/editar/:id', 
-        canActivate: [AuthGuardService],
+        canActivate: [],
         loadComponent: () => 
             import('./pages/usuario/cadastrar-usuario/cadastrar-usuario.component').then(
                 (m) => m.CadastrarUsuarioComponent
             ),
-    }
+    },
+    {   path: 'carro', 
+    canActivate: [AuthGuardService],
+    loadComponent: () => 
+        import('./pages/carro/listar-carro/listar-carro.component').then(
+            (m) => m.ListarCarroComponent
+        ),
+},
+{ 
+    path: 'carro/cadastrar', 
+    canActivate: [AuthGuardService],
+    loadComponent: () => 
+        import('./pages/carro/cadastrar-carro/cadastrar-carro.component').then(
+            (m) => m.CadastrarCarroComponent
+        ),
+},
+{ 
+    path: 'carro/editar/:id', 
+    canActivate: [AuthGuardService],
+    loadComponent: () => 
+        import('./pages/carro/cadastrar-carro/cadastrar-carro.component').then(
+            (m) => m.CadastrarCarroComponent
+        ),
+},
 
 ];

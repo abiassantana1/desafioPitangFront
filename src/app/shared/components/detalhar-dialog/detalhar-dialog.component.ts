@@ -1,6 +1,5 @@
 import {Component, Inject, inject} from '@angular/core';
 import {
-  MatDialog,
   MAT_DIALOG_DATA,
   MatDialogRef,
   MatDialogTitle,
