@@ -9,24 +9,26 @@ import { ListarUsuarioComponent } from './pages/usuario/listar-usuario/listar-us
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { AuthService } from './service/auth.service';
 import { Usuario } from './interface/usuario';
+import { PerfilComponent } from "./pages/perfil/perfil.component";
 
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [
-    RouterOutlet, 
-    ListarUsuarioComponent,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatListModule,
-    MatButtonModule,
-    MatIconModule,
-  ],
-  providers: [provideNativeDateAdapter()],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+    selector: 'app-root',
+    standalone: true,
+    providers: [provideNativeDateAdapter()],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss',
+    imports: [
+        RouterOutlet,
+        ListarUsuarioComponent,
+        MatSidenavModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatListModule,
+        MatButtonModule,
+        MatIconModule,
+        PerfilComponent
+    ]
 })
 export class AppComponent {
   title = 'desafio-pitang';

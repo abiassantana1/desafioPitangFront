@@ -49,6 +49,15 @@ export class AuthService {
       });
   }
 
+  atualizarUsuarioLogado() {
+    this.httpClient.get<Usuario>(this.BASE_URL+'me',
+    { headers: { Authorization: 'Bearer '+localStorage.getItem('JWT_TOKEN') } }
+    ).subscribe(novoUsuario => {
+      localStorage.setItem(this.USUARIO_LOGADO, JSON.stringify(novoUsuario))
+      this.usuarioLogado.next(novoUsuario);
+    });
+  }
+
   logout() {
     localStorage.removeItem(this.JWT_TOKEN);
     localStorage.removeItem(this.USUARIO_LOGADO);

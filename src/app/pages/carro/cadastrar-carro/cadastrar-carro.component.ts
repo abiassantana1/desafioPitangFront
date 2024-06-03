@@ -50,12 +50,13 @@ export class CadastrarCarroComponent {
   }
 
   configurarFormulario() {
+    const now = new Date()
     this.formulario = this.formBuilder.group({
       id: [null],
-      year: [null, [Validators.required]],
-      licensePlate: [null, [Validators.required]],
-      model: [null, [Validators.required]],
-      color: [null, [Validators.required]],
+      year: [null, [Validators.required, Validators.min(1900), Validators.max(now.getFullYear())]],
+      licensePlate: [null, [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
+      model: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      color: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
     })
   }
 

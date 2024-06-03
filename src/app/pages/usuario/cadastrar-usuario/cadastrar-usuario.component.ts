@@ -7,6 +7,8 @@ import {MatCardModule} from '@angular/material/card';
 import { UsuarioService } from '../../../service/usuario.service';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Usuario } from '../../../interface/usuario';
+import { AuthService } from '../../../service/auth.service';
 
 @Component({
   selector: 'app-cadastrar-usuario',
@@ -18,6 +20,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class CadastrarUsuarioComponent {
 
   formulario!: FormGroup;
+  usuarioLogado!: Usuario;
 
   getId(): number {
     return Number(this.route.snapshot.paramMap.get('id'));
@@ -28,11 +31,15 @@ export class CadastrarUsuarioComponent {
     private router: Router,
     private route: ActivatedRoute,
     private usuarioService: UsuarioService,
+    private authService: AuthService
   ) {
 
   }
 
   ngOnInit() {
+    this.authService.usuarioLogado$.subscribe( usuario => {
+      this.usuarioLogado = usuario;
+    });
     this.configurarFormulario();
     if(this.getId()) {
       this.carregarDadosFormulario();
@@ -62,11 +69,22 @@ export class CadastrarUsuarioComponent {
   onSubmit() {
     if(this.getId()) {
       this.usuarioService.editar(this.getId(), this.formulario.value).subscribe( response => {
-        this.router.navigateByUrl('usuario')
+        if(this.usuarioLogado.role == 'ADMIN') {
+          this.router.navigateByUrl('usuario');
+        } else {
+          this.authService.atualizarUsuarioLogado();
+          this.router.navigateByUrl('carro');
+        }
+        
       })
     } else {
       this.usuarioService.cadastrar(this.formulario.value).subscribe( response => {
-        this.router.navigateByUrl('usuario')
+        if(this.usuarioLogado.role == 'ADMIN') {
+          this.router.navigateByUrl('usuario');
+        } else {
+          this.router.navigateByUrl('carro');
+        }
+        
       })
     }
   

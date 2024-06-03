@@ -1,0 +1,10 @@
+@if (usuario.role) {
+    <!-- <span class="material-icons md-80">face</span><br> -->
+    {{usuario.firstName}} <br>
+    <div class="editar">
+        <a href="{{'usuario/editar/' + usuario.id }}" >Editar</a>
+    </div>
+    
+} @else {
+    Menu
+}
