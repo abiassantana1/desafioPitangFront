@@ -1,7 +1,7 @@
 # desafioPitangFront
 
 ## instalação
-entre na pasta do projeto e efetue os seguintes comandos:
-npm install
-Ao finalizar o comendo efetue o seguinte comando:
-npm start
+entre na pasta do projeto e efetue os seguintes comandos:<br\>
+npm install<br\>
+Ao finalizar o comendo efetue o seguinte comando:<br\>
+npm start<br\>
