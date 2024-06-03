@@ -17,19 +17,30 @@ export class UsuarioService {
   ) { }
 
   listaUsuarios(): Observable<any> {
-    return this.httpClient.get(this.BASE_URL+this.USUARIO_PATH)
+    return this.httpClient.get(this.BASE_URL+this.USUARIO_PATH, 
+      { headers: { Authorization: 'Bearer '+localStorage.getItem('JWT_TOKEN') } })
   }
 
   buscar(id: number): Observable<any> {
-    return this.httpClient.get(this.BASE_URL+this.USUARIO_PATH+'/'+id)
+    return this.httpClient.get(this.BASE_URL+this.USUARIO_PATH+'/'+id,
+    { headers: { Authorization: 'Bearer '+localStorage.getItem('JWT_TOKEN') } }
+    )
   }
 
   cadastrar(usuario: Usuario): Observable<any> {
     return this.httpClient.post(this.BASE_URL+this.USUARIO_PATH, usuario)
   }
 
+  editar(id: number, usuario: Usuario): Observable<any> {
+    return this.httpClient.put(this.BASE_URL+this.USUARIO_PATH+'/'+id, usuario,
+      { headers: { Authorization: 'Bearer '+localStorage.getItem('JWT_TOKEN') } }
+    )
+  }
+
   remover(id: number): Observable<any> {
-    return this.httpClient.delete(this.BASE_URL+this.USUARIO_PATH+'/'+id)
+    return this.httpClient.delete(this.BASE_URL+this.USUARIO_PATH+'/'+id,
+    { headers: { Authorization: 'Bearer '+localStorage.getItem('JWT_TOKEN') } }
+    )
   }
   
 }

@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { ListarUsuarioComponent } from './pages/usuario/listar-usuario/listar-usuario.component';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { AuthService } from './service/auth.service';
+import { Usuario } from './interface/usuario';
 
 
 @Component({
@@ -30,15 +31,14 @@ import { AuthService } from './service/auth.service';
 export class AppComponent {
   title = 'desafio-pitang';
   sidenav!: MatSidenav;
-  autenticado!: boolean;
+  usuario!: Usuario;
 
   constructor(
     private authService: AuthService,
     private router: Router,
   ){
-    authService.autenticado$.subscribe(response => {
-      this.autenticado = response;
-      console.log(this.autenticado);
+    authService.usuarioLogado$.subscribe(response => {
+      this.usuario = response;
     })
   }
 

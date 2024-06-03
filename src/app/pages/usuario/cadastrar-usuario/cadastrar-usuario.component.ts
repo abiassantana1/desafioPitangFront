@@ -60,9 +60,16 @@ export class CadastrarUsuarioComponent {
   }
 
   onSubmit() {
-    this.usuarioService.cadastrar(this.formulario.value).subscribe( response => {
-      this.router.navigateByUrl('usuario')
-    })
+    if(this.getId()) {
+      this.usuarioService.editar(this.getId(), this.formulario.value).subscribe( response => {
+        this.router.navigateByUrl('usuario')
+      })
+    } else {
+      this.usuarioService.cadastrar(this.formulario.value).subscribe( response => {
+        this.router.navigateByUrl('usuario')
+      })
+    }
+  
   }
 
 }
